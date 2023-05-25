@@ -115,3 +115,26 @@
   height: 1em;
   margin-left: 0.5rem;
 }
+
+.square {  
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  width: 270px;
+  height: 270px;
+  background: grey;
+
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  border: solid 1px rgb(85 85 85);
+  background: url('~/assets/images/icons.png');
+}
+.hoge {
+  width: 30px;
+  height: 30px;
+  background: url('~/assets/images/icons.png');
+
+}
