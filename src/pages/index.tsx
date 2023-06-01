@@ -1,42 +1,39 @@
-
-
-import styles from './index.module.css';
 import { useState } from 'react';
+import styles from './index.module.css';
 const Home = () => {
-  const[user_board,user_setboard]=useState([
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-  
+  const [user_board, user_setboard] = useState([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
-  const[bomb_board,bomb_setboard]=useState([
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
-    [0,0,0,0,0,0,0,0,0,],
+  const [bomb_board, bomb_setboard] = useState([
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
   ]);
   const board = [
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-  [-1,-1,-1,-1,-1,-1,-1,-1,-1],
-]
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+  ];
   //-1 ->石
   //0 ->画像なしセル
   //1~8 ->数字セル
@@ -54,49 +51,57 @@ const Home = () => {
     { dx: -1, dy: 1 }, // 左下
     { dx: 1, dy: 1 }, // 右下
   ];
-  
 
-  //押した場所の周りの爆弾の数を数えて配列に代入する関数
-  const count_bomb = (a : number, b : number) => {
-  let bomb_counter = 0;
+  //押した場所の周りの爆弾の数を数えて配列に代入する再起関数
+  const count_bomb = (b: number, a: number) => {
+    let bomb_counter = 0;
 
-  for (const { dx, dy } of directions) {
-    
-    const nx = a + dx;
-    const ny = b + dy;
-    if (bomb_board[ny] !== undefined){
-      if (bomb_board[ny][nx] === 1){
-      bomb_counter++;
-      }
-    }
-  };
-  return bomb_counter
-  };
-  
-  //爆弾を数える関数を全部のマスでやる
-  for (let i = 1;i<9;i++){
-    for (let j = 1;j<9;j++){
-      count_bomb(i,j)
-
-    }
-  }
-
-
-  
-  const clickLine = (x: number, y: number) => {
-    console.log(x, y);
-    const newBoard: number[][] = JSON.parse(JSON.stringify(user_board));
-    newBoard[y][x] +=1;
-    user_setboard(newBoard);
-    let counter = 0;
-    for (const raw of bomb_board) {
-      for (const cell of raw) {
-        if ( cell !== 0) {
-          counter++;
+    for (const { dx, dy } of directions) {
+      const nx = a + dx;
+      const ny = b + dy;
+      if (
+        bomb_board[ny] !== undefined &&
+        bomb_board[ny][nx] !== undefined &&
+        board[ny][nx] === -1
+      ) {
+        if (bomb_board[ny][nx] === 1) {
+          bomb_counter++;
         }
       }
     }
-    if (counter === 0) {
+    board[b][a] = bomb_counter;
+    if (bomb_counter === 0) {
+      for (const { dx, dy } of directions) {
+        const nx = a + dx;
+        const ny = b + dy;
+        if (
+          bomb_board[ny] !== undefined &&
+          bomb_board[ny][nx] !== undefined &&
+          board[ny][nx] === -1
+        ) {
+          //(ny>=0&&ny<=8&&nx>=0&&nx<=8)
+          count_bomb(ny, nx);
+        }
+      }
+    }
+  };
+
+  //爆弾を数える関数を、全部のマスを調べてクリックされたところにやる
+  for (let i = 0; i < 9; i++) {
+    for (let j = 0; j < 9; j++) {
+      if (user_board[i][j] === 1) {
+        count_bomb(i, j);
+      }
+    }
+  }
+
+  const clickLine = (x: number, y: number) => {
+    console.log(x, y);
+    const newUserBoard: number[][] = JSON.parse(JSON.stringify(user_board));
+    newUserBoard[y][x] = 1;
+    user_setboard(newUserBoard);
+
+    if (!bomb_board.some((row, y) => row.includes(1))) {
       const userBoardCopy: number[][] = JSON.parse(JSON.stringify(user_board));
       const zeroPositions = [];
       for (let i = 0; i < userBoardCopy.length; i++) {
@@ -117,21 +122,21 @@ const Home = () => {
         bomb_setboard(bombBoardCopy);
       }
     }
-
   };
 
-
-  
-  
-  
-  
-return (
+  return (
     <div className={styles.container}>
       <div className={styles.square}>
-        {bomb_board.map((raw, y) =>
-          raw.map((cell_number, x) => (
-            <div className={styles.cell} key={`${x}-${y}`} onClick={() => clickLine(x, y)}
-            style={{backgroundPosition: -30*cell_number+30 }} />
+        {board.map((raw, y) =>
+          raw.map((cellNumber, x) => (
+            <div
+              className={cellNumber === -1 ? styles.cellBlock : styles.cell}
+              key={`${x}-${y}`}
+              onClick={() => clickLine(x, y)}
+              style={{ backgroundPosition: -30 * cellNumber + 30 }}
+            >
+              <>{cellNumber}</>
+            </div>
           ))
         )}
       </div>

@@ -116,14 +116,13 @@
   margin-left: 0.5rem;
 }
 
-.square {  
+.square {
   display: flex;
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 270px;
   height: 270px;
-  background: grey;
-
+  background: rgb(212 212 212);
 }
 
 .cell {
@@ -131,10 +130,13 @@
   height: 30px;
   border: solid 1px rgb(85 85 85);
   background: url('~/assets/images/icons.png');
+  background-repeat: no-repeat;
 }
-.hoge {
+
+.cell-block {
   width: 30px;
   height: 30px;
-  background: url('~/assets/images/icons.png');
-
+  border: solid 4px white;
+  border-bottom-color: gray;
+  border-right-color: gray;
 }
