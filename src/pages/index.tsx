@@ -122,6 +122,16 @@ const Home = () => {
         bomb_setboard(bombBoardCopy);
       }
     }
+    if (bomb_board[y][x] === 1) {
+      for (let i = 0; i < 9; i++) {
+        for (let j = 0; j < 9; j++) {
+          if (bomb_board[i][j] === 1) {
+            board[i][j] = 11;
+          }
+        }
+      }
+    }
+    console.table(board);
   };
 
   return (
@@ -130,7 +140,7 @@ const Home = () => {
         {board.map((raw, y) =>
           raw.map((cellNumber, x) => (
             <div
-              className={cellNumber === -1 ? styles.cellBlock : styles.cell}
+              className={cellNumber === -1 ? styles.cellblock : styles.cell}
               key={`${x}-${y}`}
               onClick={() => clickLine(x, y)}
               style={{ backgroundPosition: -30 * cellNumber + 30 }}
