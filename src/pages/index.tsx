@@ -87,26 +87,54 @@ const Home = () => {
   };
 
   //爆弾を数える関数を、全部のマスを調べてクリックされたところにやる
+  // Define a function to update all bomb positions on the board
+  const couunt_bomb_borad = () => {
+    for (let n = 0; n < 9; n++) {
+      for (let m = 0; m < 9; m++) {
+        if (bomb_board[n][m] === 1) {
+          board[n][m] = 11;
+        }
+      }
+    }
+  };
+
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
       if (user_board[i][j] === 1) {
-        count_bomb(i, j);
+        if (bomb_board[i][j] === 1) {
+          couunt_bomb_borad();
+        } else {
+          count_bomb(i, j);
+        }
       }
     }
   }
+  console.table(board);
 
+  //ユーザーボードが全部0である確認
+  const count_user_board = () => {
+    for (let n = 0; n < 9; n++) {
+      for (let m = 0; m < 9; m++) {
+        if (user_board[n][m] !== 0) {
+          return false;
+        }
+      }
+    }
+  };
   const clickLine = (x: number, y: number) => {
-    console.log(x, y);
     const newUserBoard: number[][] = JSON.parse(JSON.stringify(user_board));
     newUserBoard[y][x] = 1;
-    user_setboard(newUserBoard);
 
-    if (!bomb_board.some((row, y) => row.includes(1))) {
+    user_setboard(newUserBoard);
+    //ランダムに爆弾生成
+
+    if (count_user_board() !== false) {
       const userBoardCopy: number[][] = JSON.parse(JSON.stringify(user_board));
       const zeroPositions = [];
       for (let i = 0; i < userBoardCopy.length; i++) {
         for (let j = 0; j < userBoardCopy[i].length; j++) {
-          if (userBoardCopy[i][j] === 0) {
+          if (userBoardCopy[i][j] === 0 && !(i === y && j === x)) {
+            // Exclude user's selected position
             zeroPositions.push([i, j]);
           }
         }
@@ -122,16 +150,6 @@ const Home = () => {
         bomb_setboard(bombBoardCopy);
       }
     }
-    if (bomb_board[y][x] === 1) {
-      for (let i = 0; i < 9; i++) {
-        for (let j = 0; j < 9; j++) {
-          if (bomb_board[i][j] === 1) {
-            board[i][j] = 11;
-          }
-        }
-      }
-    }
-    console.table(board);
   };
 
   return (
