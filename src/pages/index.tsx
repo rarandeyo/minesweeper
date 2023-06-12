@@ -55,28 +55,28 @@ const Home = () => {
       for (let m = 0; m < 9; m++) {
         if (bomb_board[n][m] === 1) {
           board[n][m] = 11;
-          console.log("爆弾あり")
-          if(user_board[n][m]===1&&bomb_board[n][m]!==1){
+          console.log("爆弾のマスを11に変更")}
+          if(user_board[n][m]===1&&board[n][m]!==11){console.log("最後にカウント")
             let bomb_counter = 0;
             for (const { dx, dy } of directions) {
-              const nx = m + dx;
-              const ny = n + dy;
+              const nnx = m + dx;
+              const nny = n + dy;
               if (
-                bomb_board[ny] !== undefined &&
-                bomb_board[ny][nx] !== undefined &&
-                board[ny][nx] === -1
+                bomb_board[nny] !== undefined &&
+                bomb_board[nny][nnx] !== undefined &&
+                board[nny][nnx] === -1
               ) {
-                if (bomb_board[ny][nx] === 1) {
+                if (bomb_board[nny][nnx] === 1) {
                   bomb_counter++;
                 }
               }
             }
             board[n][m] = bomb_counter
-            console.log("最後にカウント")
+            
             
           }
       
-        }
+        
       }
     }
   
@@ -122,6 +122,7 @@ const Home = () => {
     }
     board[b][a] = bomb_counter
     
+    
     if (bomb_counter === 0) {
       for (const { dx, dy } of directions) {
         const nx = a + dx;
@@ -133,15 +134,17 @@ const Home = () => {
         ) {
           
           count_bomb(ny, nx);
-          console.log("周りに爆弾あり")
+          
+          
         }
       }
     }
+    
   };
   
 
   //爆弾を数える関数を、全部のマスを調べてクリックされたところにやる
-  // Define a function to update all bomb positions on the board
+  // Define a function to update all bomb positions on the boardboa
  
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) { 
@@ -156,6 +159,8 @@ const Home = () => {
       }
     }
   }
+  console.table(bomb_board)
+  console.table(board)
 
 
   //ユーザーボードが全部0である確認
