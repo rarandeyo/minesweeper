@@ -10,5 +10,6 @@
   "files.eol": "\n",
   "editor.tabSize": 2,
   "stylelint.validate": ["css", "less", "postcss"],
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "prettier.prettierPath": "node_modules/prettier"
 }

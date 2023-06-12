@@ -55,57 +55,20 @@ const Home = () => {
       for (let m = 0; m < 9; m++) {
         if (bomb_board[n][m] === 1) {
           board[n][m] = 11;
-          console.log("爆弾のマスを11に変更")}
-          if(user_board[n][m]===1&&board[n][m]!==11){console.log("最後にカウント")
-            let bomb_counter = 0;
-            for (const { dx, dy } of directions) {
-              const nnx = m + dx;
-              const nny = n + dy;
-              if (
-                bomb_board[nny] !== undefined &&
-                bomb_board[nny][nnx] !== undefined &&
-                board[nny][nnx] === -1
-              ) {
-                if (bomb_board[nny][nnx] === 1) {
-                  bomb_counter++;
-                }
-              }
-            }
-            board[n][m] = bomb_counter
-            
-            
-          }
-      
-        
-      }
-    }
-  
-  };
-  const exist = ()=>{
-    let exist_bomb =0;
-      for (let o = 0; o < 9; o++) {
-        for (let p = 0; p < 9; p++) {
-          if (board[o][p] === 11) {
-            exist_bomb++
-          }
+          console.log('爆弾のマスを11に変更');
         }
       }
-      return exist_bomb;
     }
-
-
+  };
 
   //押した場所の周りの爆弾の数を数えて配列に代入する再起関数
   const count_bomb = (b: number, a: number) => {
     let bomb_counter = 0;
-    if (bomb_board[b][a]===1){
+    if (bomb_board[b][a] === 1) {
       couunt_bomb_borad();
 
-     
-      return
+      return;
     }
-      
-    
 
     for (const { dx, dy } of directions) {
       const nx = a + dx;
@@ -113,16 +76,15 @@ const Home = () => {
       if (
         bomb_board[ny] !== undefined &&
         bomb_board[ny][nx] !== undefined &&
-        board[ny][nx] === -1
+        (board[ny][nx] === -1 || board[ny][nx] === 11)
       ) {
         if (bomb_board[ny][nx] === 1) {
           bomb_counter++;
         }
       }
     }
-    board[b][a] = bomb_counter
-    
-    
+    board[b][a] = bomb_counter;
+
     if (bomb_counter === 0) {
       for (const { dx, dy } of directions) {
         const nx = a + dx;
@@ -130,57 +92,39 @@ const Home = () => {
         if (
           bomb_board[ny] !== undefined &&
           bomb_board[ny][nx] !== undefined &&
-          board[ny][nx] === -1
+          (board[ny][nx] === -1 || board[ny][nx] === 11)
         ) {
-          
           count_bomb(ny, nx);
-          
-          
         }
       }
     }
-    
   };
-  
 
   //爆弾を数える関数を、全部のマスを調べてクリックされたところにやる
   // Define a function to update all bomb positions on the boardboa
- 
+
   for (let i = 0; i < 9; i++) {
-    for (let j = 0; j < 9; j++) { 
-      if (exist()===0){
-       if (user_board[i][j] === 1) {
-        count_bomb(i,j)
-        console.log("カウントした")
-      }
-
-
-
+    for (let j = 0; j < 9; j++) {
+      if (user_board[i][j] === 1) {
+        count_bomb(i, j);
+        console.log('カウントした');
       }
     }
   }
-  console.table(bomb_board)
-  console.table(board)
-
+  console.table(bomb_board);
+  console.table(board);
 
   //ユーザーボードが全部0である確認
-  const count_user_board = () => {
-    for (let n = 0; n < 9; n++) {
-      for (let m = 0; m < 9; m++) {
-        if (user_board[n][m] !== 0) {
-          return false;
-        }
-      }
-    }
-  };
+
+  user_board.some((raw) => raw.includes(1));
   const clickLine = (x: number, y: number) => {
     const newUserBoard: number[][] = JSON.parse(JSON.stringify(user_board));
     newUserBoard[y][x] = 1;
 
     user_setboard(newUserBoard);
-    //ランダムに爆弾生成
 
-    if (count_user_board() !== false) {
+    //ランダムに爆弾生成
+    if (user_board.some((raw) => raw.includes(0)) === false) {
       const userBoardCopy: number[][] = JSON.parse(JSON.stringify(user_board));
       const zeroPositions = [];
       for (let i = 0; i < userBoardCopy.length; i++) {
@@ -202,7 +146,7 @@ const Home = () => {
         bomb_setboard(bombBoardCopy);
       }
     }
-  console.log(x,y)
+    console.log(x, y);
   };
 
   return (
