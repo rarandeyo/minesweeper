@@ -61,7 +61,7 @@ const Home = () => {
     }
   };
 
-  //押した場所の周りの爆弾の数を数えて配列に代入する再起関数
+  //押した場所の周りの爆弾の数を数えて配列に代入する再起関数//ANCHOR - countBomb
   const count_bomb = (b: number, a: number) => {
     let bomb_counter = 0;
     if (bomb_board[b][a] === 1) {
@@ -76,7 +76,7 @@ const Home = () => {
       if (
         bomb_board[ny] !== undefined &&
         bomb_board[ny][nx] !== undefined &&
-        (board[ny][nx] === -1 || board[ny][nx] === 11)
+        (board[ny][nx] === -1 || board[ny][nx] > 8)
       ) {
         if (bomb_board[ny][nx] === 1) {
           bomb_counter++;
@@ -92,7 +92,7 @@ const Home = () => {
         if (
           bomb_board[ny] !== undefined &&
           bomb_board[ny][nx] !== undefined &&
-          (board[ny][nx] === -1 || board[ny][nx] === 11)
+          (board[ny][nx] === -1 || board[ny][nx] > 8)
         ) {
           count_bomb(ny, nx);
         }
@@ -107,19 +107,22 @@ const Home = () => {
     for (let j = 0; j < 9; j++) {
       if (user_board[i][j] === 1) {
         count_bomb(i, j);
-        console.log('カウントした');
+      }
+      if (user_board[i][j] > 8) {
+        board[i][j] = user_board[i][j];
       }
     }
   }
   console.table(bomb_board);
-  console.table(board);
+  console.table(user_board);
 
   //ユーザーボードが全部0である確認
 
-  user_board.some((raw) => raw.includes(1));
-  const clickLine = (x: number, y: number) => {
+  //ANCHOR - ClickLeft
+  const clickLeft = (x: number, y: number) => {
     const newUserBoard: number[][] = JSON.parse(JSON.stringify(user_board));
     newUserBoard[y][x] = 1;
+    console.log(`Left click at ${x}, ${y}`);
 
     user_setboard(newUserBoard);
 
@@ -148,6 +151,24 @@ const Home = () => {
     }
     console.log(x, y);
   };
+  //ANCHOR - ClickRight
+  const clickRight = (x: number, y: number) => {
+    const newUserBoard: number[][] = JSON.parse(JSON.stringify(user_board));
+    if (user_board[y][x] === 0) {
+      newUserBoard[y][x] = 10;
+    }
+    if (user_board[y][x] === 10) {
+      newUserBoard[y][x] = 9;
+    }
+    if (user_board[y][x] === 9) {
+      newUserBoard[y][x] = 0;
+    }
+
+    user_setboard(newUserBoard);
+
+    // put your right click logic here
+    console.log(`Right click at ${x}, ${y}`);
+  };
 
   return (
     <div className={styles.container}>
@@ -155,10 +176,18 @@ const Home = () => {
         {board.map((raw, y) =>
           raw.map((cellNumber, x) => (
             <div
-              className={cellNumber === -1 ? styles.cellblock : styles.cell}
+              className={
+                cellNumber === -1 || (cellNumber > 8 && cellNumber < 11)
+                  ? styles.cellblock
+                  : styles.cell
+              }
               key={`${x}-${y}`}
-              onClick={() => clickLine(x, y)}
-              style={{ backgroundPosition: -30 * cellNumber + 30 }}
+              onClick={() => clickLeft(x, y)}
+              onContextMenu={(e) => {
+                e.preventDefault();
+                clickRight(x, y);
+              }}
+              style={{ backgroundPosition: -30 * cellNumber + 34 }}
             >
               <>{cellNumber}</>
             </div>
