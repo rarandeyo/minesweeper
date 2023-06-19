@@ -8,6 +8,71 @@
   padding: 0 0.5rem;
 }
 
+.square {
+  display: flex;
+
+  /* justify-content: flex-start; */
+  flex-wrap: wrap;
+  width: 342px;
+  height: 342px;
+  background: rgb(212 212 212);
+}
+
+.cell {
+  width: 38px;
+  height: 38px;
+  border: solid 1px lightgray;
+  background: url('~/assets/images/icons.png');
+  background-repeat: no-repeat;
+}
+
+.cellblock {
+  width: 38px;
+  height: 38px;
+  border: outset 4px;
+  background: url('~/assets/images/icons.png');
+  background-repeat: no-repeat;
+}
+
+.cellblock:active {
+  width: 38px;
+  height: 38px;
+  border: inset 4px;
+  background: url('~/assets/images/icons.png');
+  opacity: 0.8;
+  background-repeat: no-repeat;
+}
+
+.outline {
+  flex-direction: column;
+  display: flex;
+  width: 366px;
+  height: 412px;
+  border: outset 4px;
+  background-color: lightgray;
+  align-items: center;
+  justify-content: center;
+}
+
+.inline {
+  display: flex;
+  width: 350px;
+  border: inset 4px;
+  background-color: lightgray;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 
+
+a
+
+
+
+
+
+ */
+
 .main {
   display: flex;
   flex: 1;
@@ -114,31 +179,4 @@
 .logo {
   height: 1em;
   margin-left: 0.5rem;
-}
-
-.square {
-  display: flex;
-  justify-content: flex-start;
-  flex-wrap: wrap;
-  width: 342px;
-  height: 342px;
-  background: rgb(212 212 212);
-}
-
-.cell {
-  width: 38px;
-  height: 38px;
-  border: solid 1px rgb(85 85 85);
-  background: url('~/assets/images/icons.png');
-  background-repeat: no-repeat;
-}
-
-.cellblock {
-  width: 38px;
-  height: 38px;
-  border: solid 4px white;
-  border-bottom-color: gray;
-  border-right-color: gray;
-  background: url('~/assets/images/icons.png');
-  background-repeat: no-repeat;
 }

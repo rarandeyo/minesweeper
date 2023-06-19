@@ -172,27 +172,38 @@ const Home = () => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.square}>
-        {board.map((raw, y) =>
-          raw.map((cellNumber, x) => (
-            <div
-              className={
-                cellNumber === -1 || (cellNumber > 8 && cellNumber < 11)
-                  ? styles.cellblock
-                  : styles.cell
-              }
-              key={`${x}-${y}`}
-              onClick={() => clickLeft(x, y)}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                clickRight(x, y);
-              }}
-              style={{ backgroundPosition: -30 * cellNumber + 34 }}
-            >
-              <>{cellNumber}</>
-            </div>
-          ))
-        )}
+      <div className={styles.outline}>
+        <div className={styles.inline} style={{ height: 46 }}>
+          <div className={styles.cellblock} style={{ backgroundPosition: -330 }} />
+        </div>
+        <div style={{ height: 4 }} />
+        <div
+          className={styles.inline}
+          style={{
+            height: 356,
+          }}
+        >
+          <div className={styles.square}>
+            {board.map((raw, y) =>
+              raw.map((cellNumber, x) => (
+                <div
+                  className={
+                    cellNumber === -1 || (cellNumber > 8 && cellNumber < 11)
+                      ? styles.cellblock
+                      : styles.cell
+                  }
+                  key={`${x}-${y}`}
+                  onClick={() => clickLeft(x, y)}
+                  onContextMenu={(e) => {
+                    e.preventDefault();
+                    clickRight(x, y);
+                  }}
+                  style={{ backgroundPosition: -30 * cellNumber + 34 }}
+                />
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );
