@@ -124,7 +124,7 @@ const Home = () => {
     user_setboard(newUserBoard);
 
     //ランダムに爆弾生成
-    if (user_board.some((raw) => raw.includes(0)) === false) {
+    if (user_board.some((raw) => raw.includes(1)) === false) {
       const userBoardCopy: number[][] = JSON.parse(JSON.stringify(user_board));
       const zeroPositions = [];
       for (let i = 0; i < userBoardCopy.length; i++) {
