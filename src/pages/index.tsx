@@ -116,8 +116,6 @@ const Home = () => {
   console.table(bomb_board);
   console.table(user_board);
 
-  //ユーザーボードが全部0である確認
-
   //ANCHOR - ClickLeft
   const clickLeft = (x: number, y: number) => {
     const newUserBoard: number[][] = JSON.parse(JSON.stringify(user_board));
@@ -169,12 +167,19 @@ const Home = () => {
     // put your right click logic here
     console.log(`Right click at ${x}, ${y}`);
   };
+  let endNumber = 0;
+  if (board.some((raw) => raw.includes(11)) === true) {
+    endNumber = 2;
+  }
 
   return (
     <div className={styles.container}>
       <div className={styles.outline}>
         <div className={styles.inline} style={{ height: 46 }}>
-          <div className={styles.cellblock} style={{ backgroundPosition: -330 }} />
+          <div
+            className={styles.cellblock}
+            style={{ backgroundPosition: -330 + -30 * endNumber }}
+          />
         </div>
         <div style={{ height: 4 }} />
         <div
